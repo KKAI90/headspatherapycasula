@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connecting… — AdManager</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0f1117; color: #e2e8f0;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    background: #1a1d27; border: 1px solid #2e3347;
+    border-radius: 16px; padding: 48px 40px; text-align: center;
+    max-width: 420px; width: 100%;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+  .icon { font-size: 48px; margin-bottom: 20px; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  p { font-size: 14px; color: #64748b; line-height: 1.6; }
+  .spinner {
+    width: 40px; height: 40px; border: 3px solid #2e3347;
+    border-top-color: #6366f1; border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error { color: #ef4444; }
+  .success { color: #22c55e; }
+  .btn {
+    display: inline-block; margin-top: 20px;
+    padding: 10px 24px; background: #6366f1; color: #fff;
+    border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;
+  }
+  .btn:hover { background: #818cf8; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="spinner" id="spinner"></div>
+  <h1 id="title">Connecting to TikTok…</h1>
+  <p id="message">Please wait while AdManager completes the authorization process.</p>
+</div>
+
+<script>
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var code = params.get('code');
+    var state = params.get('state');
+    var error = params.get('error');
+    var savedState = sessionStorage.getItem('oauth_state');
+
+    var card = document.getElementById('card');
+    var spinner = document.getElementById('spinner');
+    var title = document.getElementById('title');
+    var message = document.getElementById('message');
+
+    function showError(msg) {
+      spinner.style.display = 'none';
+      card.innerHTML = '<div class="icon">❌</div>'
+        + '<h1 class="error">Authorization Failed</h1>'
+        + '<p>' + msg + '</p>'
+        + '<a href="/" class="btn">Back to AdManager</a>';
+    }
+
+    function showSuccess() {
+      spinner.style.display = 'none';
+      card.innerHTML = '<div class="icon">✅</div>'
+        + '<h1 class="success">Connected Successfully!</h1>'
+        + '<p>Your TikTok account has been connected to AdManager. You will be redirected shortly.</p>'
+        + '<a href="/dashboard.html" class="btn">Open Dashboard</a>';
+      setTimeout(function() { window.location.href = '/dashboard.html'; }, 2500);
+    }
+
+    if (error) {
+      showError('TikTok returned an error: ' + error + '. Please try again.');
+      return;
+    }
+
+    if (!code) {
+      showError('No authorization code received. Please try signing in again.');
+      return;
+    }
+
+    if (savedState && state !== savedState) {
+      showError('State mismatch. This may indicate a CSRF attack. Please try signing in again.');
+      return;
+    }
+
+    // Authorization code received — pass it to your backend for token exchange.
+    // For demonstration, we show success. In production, POST 'code' to your server.
+    setTimeout(showSuccess, 1500);
+  })();
+</script>
+</body>
+</html>

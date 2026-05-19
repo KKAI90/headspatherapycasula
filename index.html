@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdManager — TikTok Ad Management Tool</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid #2e3347;
+    background: #1a1d27;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 18px; font-weight: 700; color: #e2e8f0; text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 36px; height: 36px; background: #6366f1; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .nav-links { display: flex; align-items: center; gap: 24px; }
+  .nav-links a {
+    color: #94a3b8; text-decoration: none; font-size: 14px;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: #e2e8f0; }
+
+  /* HERO */
+  .hero {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 80px 24px 60px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(99,102,241,0.15); color: #818cf8;
+    border: 1px solid rgba(99,102,241,0.3);
+    padding: 6px 16px; border-radius: 20px; font-size: 12px;
+    font-weight: 600; margin-bottom: 28px; letter-spacing: 0.5px;
+  }
+  h1 {
+    font-size: 52px; font-weight: 800; line-height: 1.15;
+    margin-bottom: 20px; max-width: 700px;
+  }
+  h1 span { color: #6366f1; }
+  .hero-sub {
+    font-size: 18px; color: #94a3b8; max-width: 520px;
+    line-height: 1.6; margin-bottom: 48px;
+  }
+
+  /* LOGIN CARD */
+  .login-card {
+    background: #1a1d27; border: 1px solid #2e3347;
+    border-radius: 16px; padding: 36px 40px;
+    max-width: 420px; width: 100%; text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+  .login-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .login-card p { font-size: 14px; color: #64748b; margin-bottom: 28px; line-height: 1.5; }
+
+  /* TIKTOK LOGIN BUTTON */
+  .btn-tiktok {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    width: 100%; padding: 14px 24px;
+    background: #000; color: #fff;
+    border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    text-decoration: none; transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .btn-tiktok:hover {
+    background: #111; transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .btn-tiktok:active { transform: translateY(0); }
+  .tiktok-logo {
+    width: 22px; height: 22px; flex-shrink: 0;
+  }
+
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 20px 0; color: #475569; font-size: 12px;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: #2e3347;
+  }
+
+  .note {
+    font-size: 11px; color: #475569; margin-top: 20px; line-height: 1.6;
+  }
+  .note a { color: #6366f1; text-decoration: none; }
+  .note a:hover { text-decoration: underline; }
+
+  /* FEATURES */
+  .features {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 900px; width: 100%;
+    padding: 60px 24px; margin: 0 auto;
+  }
+  .feature-card {
+    background: #1a1d27; border: 1px solid #2e3347;
+    border-radius: 12px; padding: 24px;
+  }
+  .feature-icon { font-size: 28px; margin-bottom: 12px; }
+  .feature-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .feature-desc { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+  /* FOOTER */
+  footer {
+    background: #1a1d27; border-top: 1px solid #2e3347;
+    padding: 24px 40px; display: flex;
+    align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-brand { font-size: 13px; font-weight: 700; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a {
+    font-size: 12px; color: #64748b; text-decoration: none;
+  }
+  .footer-links a:hover { color: #e2e8f0; }
+  .footer-copy { font-size: 12px; color: #475569; }
+
+  @media (max-width: 640px) {
+    nav { padding: 12px 20px; }
+    h1 { font-size: 36px; }
+    .features { grid-template-columns: 1fr; }
+    footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">A</div>
+    AdManager
+  </a>
+  <div class="nav-links">
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    Powered by TikTok Content Posting API
+  </div>
+  <h1>Manage Your TikTok Ads<br>with <span>AdManager</span></h1>
+  <p class="hero-sub">
+    Connect your TikTok account to AdManager and streamline your content publishing workflow.
+  </p>
+
+  <div class="login-card">
+    <h2>Sign in to AdManager</h2>
+    <p>Connect your TikTok account to get started with content management and ad publishing.</p>
+
+    <!-- TIKTOK LOGIN ENTRY POINT -->
+    <a id="tiktokLoginBtn" href="#" class="btn-tiktok" onclick="handleTikTokLogin(event)">
+      <svg class="tiktok-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z" fill="white"/>
+      </svg>
+      Continue with TikTok
+    </a>
+
+    <div class="divider">or</div>
+
+    <p class="note">
+      By signing in, you agree to AdManager's
+      <a href="/terms.html">Terms of Service</a> and
+      <a href="/privacy.html">Privacy Policy</a>.<br>
+      AdManager will request permission to publish content on your behalf.
+    </p>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature-card">
+    <div class="feature-icon">📊</div>
+    <div class="feature-title">Content Publishing</div>
+    <div class="feature-desc">Publish and schedule TikTok videos directly from AdManager using the Content Posting API.</div>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">📈</div>
+    <div class="feature-title">Campaign Analytics</div>
+    <div class="feature-desc">Track performance metrics for your published content and advertising campaigns in real time.</div>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">⚡</div>
+    <div class="feature-title">Bulk Management</div>
+    <div class="feature-desc">Manage multiple TikTok accounts and content pipelines from a single unified dashboard.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">AdManager</div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <a href="mailto:support@admanager.app">Contact</a>
+  </div>
+  <div class="footer-copy">&copy; 2025 AdManager. All rights reserved.</div>
+</footer>
+
+<script>
+  // Replace YOUR_CLIENT_KEY with your actual TikTok app Client Key
+  var CLIENT_KEY = 'YOUR_CLIENT_KEY';
+  var REDIRECT_URI = encodeURIComponent('https://kkai90.github.io/headspatherapycasula/callback.html');
+  var SCOPES = 'user.info.basic,video.publish';
+  var STATE = Math.random().toString(36).substring(2, 15);
+
+  var authUrl = 'https://www.tiktok.com/v2/auth/authorize/'
+    + '?client_key=' + CLIENT_KEY
+    + '&response_type=code'
+    + '&scope=' + SCOPES
+    + '&redirect_uri=' + REDIRECT_URI
+    + '&state=' + STATE;
+
+  document.getElementById('tiktokLoginBtn').href = authUrl;
+
+  function handleTikTokLogin(e) {
+    if (CLIENT_KEY === 'YOUR_CLIENT_KEY') {
+      e.preventDefault();
+      alert('Configuration required: Please set your TikTok Client Key in index.html');
+      return false;
+    }
+    sessionStorage.setItem('oauth_state', STATE);
+  }
+</script>
+</body>
+</html>
